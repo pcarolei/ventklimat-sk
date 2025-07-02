@@ -4,41 +4,44 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo; // Импортируем BelongsTo
 
 class Order extends Model
 {
     use HasFactory;
 
-    // Поля, разрешенные для массового присвоения
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'user_id',
-        'service_id',
-        'description',
         'order_status_id',
+        'total_amount',
+        'details',
+        'service_id', // Если у вас есть service_id в таблице orders
     ];
 
     /**
-     * Получить пользователя, сделавшего заказ.
+     * Get the user that owns the Order.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * Получить услугу, к которой относится заказ.
+     * Get the order status that owns the Order.
      */
-    public function service()
+    public function orderStatus(): BelongsTo
     {
-        return $this->belongsTo(Service::class);
+        return $this->belongsTo(OrderStatus::class);
     }
 
-    /**
-     * Получить статус заказа.
-     */
-    public function status()
+    // Если у вас есть связь с услугами:
+    public function service(): BelongsTo // Если связь 1-ко-многим через service_id
     {
-        // Указываем внешний ключ, если он не соответствует стандартному именованию (order_status_id)
-        return $this->belongsTo(OrderStatus::class, 'order_status_id');
+        return $this->belongsTo(Service::class);
     }
 }

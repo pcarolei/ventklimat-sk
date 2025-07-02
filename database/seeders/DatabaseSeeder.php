@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             OrderStatusesTableSeeder::class,
             ServicesTableSeeder::class,
             UsersTableSeeder::class,      // Пользователи создаются после ролей
+            OrderSeeder::class,
         ]);
     }
 }

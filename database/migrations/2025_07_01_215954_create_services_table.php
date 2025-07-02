@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique(); // Название услуги/категории
-            $table->text('description')->nullable(); // Описание услуги, может быть пустым
+            $table->string('name')->unique();
+            $table->text('description')->nullable();
+            $table->decimal('price', 10, 2)->nullable(); // Добавляем столбец 'price'
             $table->timestamps();
         });
     }

@@ -10,11 +10,23 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Заказчик
-            $table->foreignId('service_id')->constrained('services')->onDelete('restrict'); // Какая услуга заказана (restrict - не даст удалить услугу, если на нее есть заказы)
-            $table->text('description'); // Детализация заказа от пользователя
-            $table->foreignId('order_status_id')->constrained('order_statuses')->onDelete('restrict'); // Текущий статус заказа
-            $table->timestamps();
+    
+            // Убедитесь, что эти foreign keys присутствуют и правильно определены:
+            $table->foreignId('user_id')
+                  ->constrained() // Связывает с таблицей 'users'
+                  ->onDelete('cascade'); // Если пользователь удаляется, его заказы тоже удаляются
+    
+            $table->foreignId('order_status_id')
+                  ->constrained('order_statuses') // Связывает с таблицей 'order_statuses'
+                  ->onDelete('cascade');
+    
+            // Добавляем столбец 'total_amount':
+            $table->decimal('total_amount', 12, 2); // Пример: 1234567890.12, без nullable, так как это обязательная сумма
+    
+            // Добавляем столбец 'details':
+            $table->text('details')->nullable(); // Может быть null, если нет специфических деталей
+    
+            $table->timestamps(); // Добавляет created_at и updated_at
         });
     }
 

@@ -8,9 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('order_statuses', function (Blueprint $table) {
+        schema::create('order_statuses', function (blueprint $table) {
             $table->id();
-            $table->string('name')->unique(); // Название статуса, уникальное
+            $table->string('name')->unique();
+            $table->text('description')->nullable(); // добавляем столбец 'description'
             $table->timestamps();
         });
     }

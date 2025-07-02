@@ -1,11 +1,182 @@
-@import 'tailwindcss';
+/* resources/css/app.css */
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/* Общие стили из файла Вход в CRM */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+body {
+    background-color: #f5f7fa; /* Цвет из Login */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333; /* Добавлено из Order Panel, чтобы иметь базовый цвет текста */
+}
+
+/* Стили из файла Вход в CRM */
+.login-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h1 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.login-header p {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+/* Общие стили для форм (из обоих файлов, объединены) */
+.form-group {
+    margin-bottom: 20px; /* Из Login, более крупный отступ */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50; /* Из Login */
+    font-size: 14px;
+    font-weight: 600; /* Из обоих */
+}
+
+.form-group input,
+.filters select,
+.filters input { /* Объединяем стили для input/select */
+    width: 100%;
+    padding: 12px 15px; /* Из Login, более крупный паддинг */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    box-sizing: border-box; /* Важно для input, чтобы padding не выходил за ширину */
+}
+
+.form-group input:focus,
+.filters select:focus,
+.filters input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.login-button { /* Для кнопки логина */
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #2980b9;
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.forgot-password a {
+    color: #7f8c8d;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Общие стили из файла Панель заказов */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px; /* Добавил паддинг для контейнера */
+    background-color: #f5f5f5; /* Фоновый цвет из Order Panel, но основной body уже есть */
+}
+
+h1 {
+    color: #2c3e50; /* Из Order Panel */
+    margin-bottom: 20px;
+}
+
+/* Стили таблицы заказов */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.orders-table th {
+    background-color: #3498db;
+    color: white;
+    font-weight: 600;
+}
+
+.orders-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Стили статусов */
+.status-new {
+    color: #e67e22;
+    font-weight: bold;
+}
+
+.status-processing {
+    color: #3498db;
+    font-weight: bold;
+}
+
+.status-completed {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.status-cancelled {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Фильтры */
+.filters {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 15px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
 }
