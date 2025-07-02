@@ -50,19 +50,20 @@ class OrderSeeder extends Seeder
         for ($i = 0; $i < 70; $i++) {
             $user = $users->random();
             $status = $orderStatuses->random();
-            $randomService = $services->random(); // Случайная услуга для привязки
-
-            // Генерируем сумму, более подходящую для услуг ВЕНТКЛИМАТ-СК
-            $totalAmount = $faker->randomFloat(2, 5000, 150000); // От 5 000 до 150 000 руб.
-
-            Order::create([
+            $totalAmount = $faker->randomFloat(2, 5000, 150000);
+        
+            $order = Order::create([ // Измените на $order = Order::create
                 'user_id' => $user->id,
                 'order_status_id' => $status->id,
                 'total_amount' => $totalAmount,
-                'details' => $faker->randomElement($orderDescriptions) . ' - ' . $faker->sentence(5), // Более специфичные детали
-                'created_at' => $faker->dateTimeBetween('-2 years', 'now'), // Заказы за последние 2 года
+                'details' => $faker->randomElement($orderDescriptions) . ' - ' . $faker->sentence(5),
+                'created_at' => $faker->dateTimeBetween('-2 years', 'now'),
                 'updated_at' => $faker->dateTimeBetween('-1 year', 'now'),
             ]);
+        
+            // Прикрепляем 1-3 случайные услуги к каждому заказу
+            $randomServices = $services->random(rand(1, 3))->pluck('id');
+            $order->services()->attach($randomServices); // Используем отношение many-to-many
         }
     }
 }

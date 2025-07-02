@@ -58,7 +58,7 @@
                                 <td class="status-{{ strtolower($order->orderStatus->name) }}">
                                     {{ $order->orderStatus->name }}
                                 </td>
-                                <td><button>Просмотр</button></td>
+                                <td><a href="{{ route('orders.show', $order->id) }}" class="view-order-button">Просмотр</a></td>
                             </tr>
                             @endforeach
                             {{-- Конец примера вывода данных --}}

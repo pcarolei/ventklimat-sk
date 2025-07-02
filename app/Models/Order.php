@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo; // Импортируем BelongsTo
+use App\Models\Service; // Добавьте импорт
+use Illuminate\Database\Eloquent\Relations\BelongsToMany; // Добавьте импорт
+
 
 class Order extends Model
 {
@@ -43,5 +46,10 @@ class Order extends Model
     public function service(): BelongsTo // Если связь 1-ко-многим через service_id
     {
         return $this->belongsTo(Service::class);
+    }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class, 'order_service', 'order_id', 'service_id');
     }
 }
