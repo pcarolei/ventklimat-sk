@@ -15,42 +15,48 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Получаем или создаем роль "admin"
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
-        // Получаем или создаем роль "client"
+        $managerRole = Role::firstOrCreate(['name' => 'manager']);
         $clientRole = Role::firstOrCreate(['name' => 'client']);
 
-        // Создаем тестового администратора
+        // Создаем администратора
         User::firstOrCreate(
-            ['email' => 'admin@example.com'], // Проверяем по email, чтобы не дублировать
+            ['email' => 'admin@example.com'], // Уникальное поле для поиска
             [
                 'name' => 'Admin User',
-                'password' => Hash::make('password'), // Пароль: 'password'
+                'password' => Hash::make('password'), // Пароль 'password'
                 'role_id' => $adminRole->id,
-                'email_verified_at' => now(), // Помечаем email как подтвержденный
+                'email_verified_at' => now(), // Подтверждаем email
             ]
         );
 
-        // Создаем тестового клиента
+        // Создаем менеджера
         User::firstOrCreate(
-            ['email' => 'client@example.com'], // Проверяем по email, чтобы не дублировать
+            ['email' => 'manager@example.com'],
+            [
+                'name' => 'Manager User',
+                'password' => Hash::make('password'),
+                'role_id' => $managerRole->id,
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // Создаем клиента
+        User::firstOrCreate(
+            ['email' => 'client@example.com'],
             [
                 'name' => 'Client User',
-                'password' => Hash::make('password'), // Пароль: 'password'
+                'password' => Hash::make('password'),
                 'role_id' => $clientRole->id,
-                'email_verified_at' => now(), // Помечаем email как подтвержденный
+                'email_verified_at' => now(),
             ]
         );
 
-        // Можно добавить еще тестовых пользователей, если нужно
-        // User::firstOrCreate(
-        //     ['email' => 'anotherclient@example.com'],
-        //     [
-        //         'name' => 'Another Client',
-        //         'password' => Hash::make('password'),
-        //         'role_id' => $clientRole->id,
-        //         'email_verified_at' => now(),
-        //     ]
-        // );
+        // Создаем еще несколько случайных клиентов с помощью фабрики
+        // Убедитесь, что UserFactory настроен для назначения role_id
+        User::factory()->count(5)->create([
+            'role_id' => $clientRole->id,
+        ]);
+
     }
 }

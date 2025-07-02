@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RolesTableSeeder::class,      // Роли должны быть созданы первыми
+            UsersTableSeeder::class,      // Пользователи создаются после ролей
             OrderStatusesTableSeeder::class,
             ServicesTableSeeder::class,
-            UsersTableSeeder::class,      // Пользователи создаются после ролей
             OrderSeeder::class,
         ]);
     }
