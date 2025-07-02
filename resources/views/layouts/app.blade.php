@@ -29,6 +29,9 @@
                     <a href="{{ route('orders.index') }}" class="nav-link {{ request()->routeIs('orders.index') ? 'active' : '' }}">
                         Заказы
                     </a>
+                    <a href="{{ route('services.index') }}" class="nav-link {{ request()->routeIs('services.index') ? 'active' : '' }}"> {{-- Добавьте эту строку --}}
+                        Услуги
+                    </a>
                     {{-- Добавьте другие ссылки по необходимости --}}
                 </div>
 
