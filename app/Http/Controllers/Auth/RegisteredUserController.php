@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role; // Добавьте эту строку для импорта модели Role
+use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,16 +37,29 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Находим роль "client"
+        $clientRole = Role::where('name', 'client')->first();
+
+        // Если роль "client" не найдена (чего быть не должно, если сидеры отработали),
+        // можно добавить логику обработки ошибки или назначить другую роль по умолчанию.
+        // Для простоты, предположим, что она всегда есть.
+        if (!$clientRole) {
+            // Это должно быть очень редким случаем, если RoleSeeder был запущен
+            // Можете бросить исключение или создать роль, если уверены
+            $clientRole = Role::firstOrCreate(['name' => 'client']);
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role_id' => $clientRole->id, // Присваиваем ID роли "client"
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(RouteServiceProvider::HOME);
     }
 }
