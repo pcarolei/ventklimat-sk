@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\Order;
+use App\Policies\OrderPolicy;
+use App\Models\Service;
+use App\Policies\ServicePolicy;
+use Illuminate\Support\Facades\Gate; // Возможно, уже импортировано
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -13,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Order::class => OrderPolicy::class,
+        Service::class => ServicePolicy::class,
     ];
 
     /**
@@ -21,6 +26,15 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Implicitly grant "super admin" role full permission
+        // Это необязательный, но полезный шаг: администратор всегда имеет полный доступ.
+        // Добавьте это в метод boot()
+        // Важно: убедитесь, что у вас есть отношение 'role' на модели User
+        // и что роль 'admin' существует.
+        \Illuminate\Support\Facades\Gate::before(function ($user, $ability) {
+            if ($user->role->name === 'admin') {
+                return true;
+            }
+        });
     }
 }

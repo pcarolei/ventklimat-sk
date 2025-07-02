@@ -2,125 +2,101 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Order;
-use App\Models\User;
-use App\Models\OrderStatus;
 use App\Models\Service;
-use App\Models\Role; // Добавьте импорт модели Role
-use Illuminate\Validation\Rule; // Добавьте импорт Rule
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('user', 'orderStatus')->latest()->get();
+        $this->authorize('viewAny', Order::class);
+
+        $user = Auth::user();
+        $orders = collect();
+
+        if ($user->role->name === 'admin' || $user->role->name === 'manager') {
+            $orders = Order::all();
+        } elseif ($user->role->name === 'client') {
+            // Изменено: фильтруем по user_id
+            $orders = Order::where('user_id', $user->id)->get();
+        }
+
         return view('orders.index', compact('orders'));
+    }
+
+    public function create()
+    {
+        $this->authorize('create', Order::class);
+        $services = Service::all();
+        $clients = User::whereHas('role', function($query) {
+            $query->where('name', 'client');
+        })->get();
+
+        return view('orders.create', compact('services', 'clients'));
+    }
+
+    public function store(Request $request)
+    {
+        $this->authorize('create', Order::class);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'service_id' => 'required|exists:services,id',
+            'user_id' => 'required|exists:users,id', // Изменено на user_id
+            'status' => 'required|string',
+        ]);
+
+        // Если пользователь - клиент, то user_id должен быть его собственным ID
+        if (Auth::user()->role->name === 'client') {
+            $validated['user_id'] = Auth::id(); // Изменено на user_id
+        }
+
+        Order::create($validated);
+
+        return redirect()->route('orders.index')->with('success', 'Заказ успешно создан.');
     }
 
     public function show(Order $order)
     {
-        $order->load('user', 'orderStatus', 'services');
+        $this->authorize('view', $order);
         return view('orders.show', compact('order'));
     }
 
-    /**
-     * Показывает форму для создания нового заказа.
-     */
-    public function create()
-    {
-        // Получаем только пользователей с ролью 'client' для выбора
-        $clientRoleId = Role::where('name', 'client')->first()->id;
-        $clients = User::where('role_id', $clientRoleId)->get(); // Получаем клиентов
-
-        $orderStatuses = OrderStatus::all(); // Все статусы
-        $services = Service::all(); // Все услуги
-
-        return view('orders.create', compact('clients', 'orderStatuses', 'services'));
-    }
-
-    /**
-     * Сохраняет новый заказ в базе данных.
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'user_id' => ['required', 'exists:users,id', Rule::exists('users', 'id')->where(function ($query) {
-                $clientRoleId = Role::where('name', 'client')->first()->id;
-                $query->where('role_id', $clientRoleId);
-            })],
-            'order_status_id' => 'required|exists:order_statuses,id',
-            'total_amount' => 'required|numeric|min:0',
-            'details' => 'nullable|string|max:1000',
-            'services' => 'nullable|array',
-            'services.*' => 'exists:services,id', // Каждое ID услуги должно существовать
-        ]);
-
-        $order = Order::create($request->only([
-            'user_id', 'order_status_id', 'total_amount', 'details'
-        ]));
-
-        // Прикрепляем выбранные услуги
-        if ($request->has('services')) {
-            $order->services()->attach($request->input('services'));
-        }
-
-        return redirect()->route('orders.index')->with('success', 'Заказ успешно создан!');
-    }
-
-    /**
-     * Показывает форму для редактирования существующего заказа.
-     */
     public function edit(Order $order)
     {
-        $clientRoleId = Role::where('name', 'client')->first()->id;
-        $clients = User::where('role_id', $clientRoleId)->get();
-        $orderStatuses = OrderStatus::all();
+        $this->authorize('update', $order);
         $services = Service::all();
-
-        // Загружаем прикрепленные услуги для предзаполнения формы
-        $order->load('services');
-
-        return view('orders.edit', compact('order', 'clients', 'orderStatuses', 'services'));
+        $clients = User::whereHas('role', function($query) {
+            $query->where('name', 'client');
+        })->get();
+        return view('orders.edit', compact('order', 'services', 'clients'));
     }
 
-    /**
-     * Обновляет существующий заказ в базе данных.
-     */
     public function update(Request $request, Order $order)
     {
-        $request->validate([
-            'user_id' => ['required', 'exists:users,id', Rule::exists('users', 'id')->where(function ($query) {
-                $clientRoleId = Role::where('name', 'client')->first()->id;
-                $query->where('role_id', $clientRoleId);
-            })],
-            'order_status_id' => 'required|exists:order_statuses,id',
-            'total_amount' => 'required|numeric|min:0',
-            'details' => 'nullable|string|max:1000',
-            'services' => 'nullable|array',
-            'services.*' => 'exists:services,id',
+        $this->authorize('update', $order);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'service_id' => 'required|exists:services,id',
+            'user_id' => 'required|exists:users,id', // Изменено на user_id
+            'status' => 'required|string',
         ]);
 
-        $order->update($request->only([
-            'user_id', 'order_status_id', 'total_amount', 'details'
-        ]));
+        $order->update($validated);
 
-        // Синхронизируем услуги (открепляет старые, прикрепляет новые)
-        if ($request->has('services')) {
-            $order->services()->sync($request->input('services'));
-        } else {
-            $order->services()->detach(); // Если услуги не выбраны, открепить все
-        }
-
-        return redirect()->route('orders.index')->with('success', 'Заказ успешно обновлен!');
+        return redirect()->route('orders.index')->with('success', 'Заказ успешно обновлен.');
     }
 
-    /**
-     * Удаляет заказ из базы данных.
-     */
     public function destroy(Order $order)
     {
+        $this->authorize('delete', $order);
         $order->delete();
-        return redirect()->route('orders.index')->with('success', 'Заказ успешно удален!');
+        return redirect()->route('orders.index')->with('success', 'Заказ успешно удален.');
     }
 }
