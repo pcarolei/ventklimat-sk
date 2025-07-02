@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
+use Illuminate\View\View; // Импорт View
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,7 +29,19 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = Auth::user(); // Получаем текущего авторизованного пользователя
+
+        // Если пользователь - администратор или менеджер, на дашборд
+        if ($user->role->name === 'admin' || $user->role->name === 'manager') {
+            return redirect()->intended(route('dashboard', absolute: false));
+        }
+        // Если пользователь - клиент, на страницу заказов
+        elseif ($user->role->name === 'client') {
+            return redirect()->intended(route('orders.index', absolute: false));
+        }
+
+        // Fallback для других ролей или если роль не определена
+        return redirect()->intended(RouteServiceProvider::HOME); // Можно перенаправить на welcome или другую страницу
     }
 
     /**

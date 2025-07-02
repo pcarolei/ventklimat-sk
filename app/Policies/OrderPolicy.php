@@ -29,16 +29,21 @@ class OrderPolicy
         if ($user->role->name === 'manager') {
             return Response::allow();
         }
-        // Изменено: проверка на user_id
         if ($user->role->name === 'client' && $user->id === $order->user_id) {
             return Response::allow();
         }
         return Response::deny('У вас нет прав для просмотра этого заказа.');
     }
 
+    /**
+     * Determine whether the user can create models.
+     * Создание заказа.
+     * Разрешено только администраторам и менеджерам.
+     */
     public function create(User $user): Response
     {
-        return in_array($user->role->name, ['manager', 'client'])
+        // Админ уже обработан в before()
+        return $user->role->name === 'manager' // <-- Изменено: только менеджеры могут создавать
                ? Response::allow()
                : Response::deny('У вас нет прав для создания заказа.');
     }
