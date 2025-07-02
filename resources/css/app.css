@@ -1,0 +1,752 @@
+/* resources/css/app.css */
+
+/* Общие стили из файла Вход в CRM */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f5f7fa; /* Цвет из Login */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333; /* Добавлено из Order Panel, чтобы иметь базовый цвет текста */
+}
+
+/* Стили из файла Вход в CRM */
+.login-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h1 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.login-header p {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+/* Общие стили для форм (из обоих файлов, объединены) */
+.form-group {
+    margin-bottom: 20px; /* Из Login, более крупный отступ */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50; /* Из Login */
+    font-size: 14px;
+    font-weight: 600; /* Из обоих */
+}
+
+.form-group input,
+.filters select,
+.filters input { /* Объединяем стили для input/select */
+    width: 100%;
+    padding: 12px 15px; /* Из Login, более крупный паддинг */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    box-sizing: border-box; /* Важно для input, чтобы padding не выходил за ширину */
+}
+
+.form-group input:focus,
+.filters select:focus,
+.filters input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.login-button { /* Для кнопки логина */
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #2980b9;
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.forgot-password a {
+    color: #7f8c8d;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Общие стили из файла Панель заказов */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px; /* Добавил паддинг для контейнера */
+    background-color: #f5f5f5; /* Фоновый цвет из Order Panel, но основной body уже есть */
+}
+
+h1 {
+    color: #2c3e50; /* Из Order Panel */
+    margin-bottom: 20px;
+}
+
+/* Стили таблицы заказов */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.orders-table th {
+    background-color: #3498db;
+    color: white;
+    font-weight: 600;
+}
+
+.orders-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Стили статусов */
+.status-new {
+    color: #e67e22;
+    font-weight: bold;
+}
+
+.status-processing {
+    color: #3498db;
+    font-weight: bold;
+}
+
+.status-completed {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.status-cancelled {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Фильтры */
+.filters {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 15px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Добавьте эти стили в resources/css/app.css */
+
+/* Стили для основной навигации */
+.main-nav {
+    background-color: #34495e; /* Темный фон для шапки */
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-logo a {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px; /* Отступы между ссылками */
+}
+
+.nav-link {
+    color: #ecf0f1; /* Светлый текст */
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: #2c3e50; /* Фон при наведении или активная */
+    color: white;
+}
+
+/* Стили для выпадающего меню пользователя */
+.nav-user-menu {
+    position: relative;
+    cursor: pointer;
+}
+
+.user-info {
+    color: white;
+    font-weight: 600;
+    padding: 8px 12px;
+    background-color: #3498db;
+    border-radius: 4px;
+}
+
+.user-dropdown {
+    display: none; /* Скрыто по умолчанию, показать по hover/JS */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    min-width: 150px;
+    z-index: 1000;
+    padding: 5px 0;
+}
+
+.nav-user-menu:hover .user-dropdown {
+    display: block; /* Показать по наведению */
+}
+
+.dropdown-item {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+
+/* Стили для заголовка страницы */
+.page-header {
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Стили для основного контента */
+.page-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px; /* Отступ снизу */
+}
+
+/* Стили для мобильной навигации (скрыты на больших экранах) */
+.menu-toggle {
+    display: none; /* Скрыть на больших экранах */
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin-bottom: 5px;
+}
+
+.responsive-nav {
+    display: none; /* Скрыто по умолчанию */
+    background-color: #2c3e50;
+    padding: 10px 20px;
+}
+
+.responsive-link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.responsive-link:last-child {
+    border-bottom: none;
+}
+
+/* Медиа-запросы для адаптивности (пример) */
+@media (max-width: 768px) {
+    .nav-links, .nav-user-menu {
+        display: none; /* Скрыть основные элементы навигации */
+    }
+    .menu-toggle {
+        display: block; /* Показать кнопку меню */
+    }
+    .nav-container {
+        justify-content: space-between;
+    }
+    /* .responsive-nav.active { display: block; } // Для активации через JS */
+}
+/* Стили для контейнера секций профиля */
+.profile-section-container {
+    display: flex;
+    flex-direction: column; /* Элементы будут располагаться вертикально */
+    gap: 20px; /* Отступ между карточками секций */
+    max-width: 800px; /* Ограничим ширину */
+    margin: 0 auto; /* Центрируем */
+}
+
+.profile-section-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #34495e;
+    margin-bottom: 10px;
+}
+
+.section-description {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Стили для кнопки верификации email */
+.verification-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    text-decoration: underline;
+    color: #3498db;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.verification-button:hover {
+    color: #2980b9;
+}
+
+/* Стили для кнопки удаления аккаунта */
+.delete-button {
+    background-color: #e74c3c; /* Красный фон */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+/* Стили для модального окна (компонент x-modal) */
+/* Эти стили могут быть сложнее, т.к. x-modal генерирует много вложенных div */
+/* Вам, возможно, придется изучить вывод HTML, чтобы точно применить стили */
+.modal-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #34495e;
+    margin-bottom: 15px;
+}
+
+.modal-description {
+    font-size: 14px;
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.secondary-button {
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.secondary-button:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+
+/* Стили для сетки блоков статистики на дашборде */
+.dashboard-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Адаптивная сетка */
+    gap: 20px; /* Отступы между блоками */
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px); /* Легкий эффект при наведении */
+}
+
+.stat-title {
+    font-size: 16px;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+/* Цветовые акценты для некоторых блоков */
+.stat-new .stat-value { color: #f39c12; } /* Оранжевый */
+.stat-processing .stat-value { color: #3498db; } /* Синий */
+.stat-completed .stat-value { color: #27ae60; } /* Зеленый */
+.stat-amount .stat-value { color: #8e44ad; } /* Фиолетовый */
+.stat-clients .stat-value, .stat-new-clients .stat-value { color: #16a085; } /* Бирюзовый */
+
+/* Стили для обертки таблицы последних заказов на дашборде */
+.recent-orders-table-wrapper {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    overflow-x: auto; /* Для горизонтального скролла на малых экранах */
+}
+
+/* Кнопка "Просмотр" в таблице последних заказов */
+.view-order-button {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.view-order-button:hover {
+    background-color: #2980b9;
+}
+
+/* Стили для карточек деталей заказа */
+.order-detail-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px; /* Отступ между карточками */
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #34495e;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee; /* Пунктирная линия */
+}
+
+.detail-group:last-of-type {
+    border-bottom: none; /* Убираем линию у последнего элемента в группе */
+}
+
+.detail-group-full {
+    flex-direction: column;
+    align-items: flex-start;
+    border-bottom: none; /* Убираем линию для полного описания */
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #555;
+    min-width: 150px; /* Чтобы метки были выровнены */
+    margin-right: 20px;
+}
+
+.detail-value {
+    color: #333;
+    text-align: right; /* Выравнивание значения по правому краю */
+    flex-grow: 1;
+}
+
+.detail-group-full .detail-label {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.detail-group-full .detail-value {
+    text-align: left;
+}
+
+/* Стили для таблицы услуг внутри деталей заказа */
+.services-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.services-table th,
+.services-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.services-table th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+    color: #555;
+}
+
+/* Кнопка "Вернуться" */
+.back-button {
+    display: inline-block;
+    background-color: #7f8c8d; /* Серый цвет */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.back-button:hover {
+    background-color: #6a797d;
+}
+
+/* Стили для карточки формы (используется для create.blade.php и edit.blade.php) */
+.form-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    max-width: 700px; /* Ограничим ширину формы */
+    margin: 0 auto; /* Центрируем */
+}
+
+/* Стили для кнопки "Создать новый заказ" */
+.create-button {
+    display: inline-block;
+    background-color: #28a745; /* Зеленый цвет */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.create-button:hover {
+    background-color: #218838;
+}
+
+/* Стили для кнопок редактирования и удаления в таблице заказов */
+.edit-order-button {
+    display: inline-block;
+    background-color: #007bff; /* Синий цвет */
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 5px; /* Отступ от кнопки просмотра */
+    transition: background-color 0.2s;
+}
+
+.edit-order-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-order-button {
+    background-color: #dc3545; /* Красный цвет */
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 5px; /* Отступ от кнопки редактирования */
+    transition: background-color 0.2s;
+}
+
+.delete-order-button:hover {
+    background-color: #c82333;
+}
+
+/* Стили для ячейки с действиями в таблице */
+.order-actions {
+    white-space: nowrap; /* Чтобы кнопки не переносились на новую строку */
+}
+
+/* Стили для select[multiple] - списка услуг */
+.form-group-input[multiple] {
+    height: auto; /* Автоматическая высота для отображения всех выбранных опций */
+    min-height: 120px; /* Минимальная высота, чтобы было видно несколько опций */
+    padding: 10px;
+    box-sizing: border-box; /* Чтобы padding не увеличивал общую ширину/высоту */
+}
+
+/* Стили для сообщений об успехе (success messages) */
+/* Вам нужно будет добавить этот блок, если вы хотите показывать сообщения об успехе */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Общие стили для таблиц данных (можно применить к orders-table и data-table) */
+.table-wrapper {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    overflow-x: auto; /* Для горизонтального скролла на малых экранах */
+}
+
+.data-table { /* Общий класс для всех таблиц данных, кроме orders-table */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.data-table th,
+.data-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Чередующиеся строки */
+}
+
+.data-table tbody tr:hover {
+    background-color: #f1f1f1; /* Эффект при наведении */
+}
+
+/* Стили для кнопок действий в таблице услуг */
+.action-buttons-cell {
+    white-space: nowrap;
+}
+
+.edit-button { /* Общий стиль для кнопки редактирования (можно использовать для заказов и услуг) */
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button { /* Общий стиль для кнопки удаления (можно использовать для заказов и услуг) */
+    background-color: #dc3545;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
