@@ -594,3 +594,86 @@ h1 {
 .back-button:hover {
     background-color: #6a797d;
 }
+
+/* Стили для карточки формы (используется для create.blade.php и edit.blade.php) */
+.form-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    max-width: 700px; /* Ограничим ширину формы */
+    margin: 0 auto; /* Центрируем */
+}
+
+/* Стили для кнопки "Создать новый заказ" */
+.create-button {
+    display: inline-block;
+    background-color: #28a745; /* Зеленый цвет */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.create-button:hover {
+    background-color: #218838;
+}
+
+/* Стили для кнопок редактирования и удаления в таблице заказов */
+.edit-order-button {
+    display: inline-block;
+    background-color: #007bff; /* Синий цвет */
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 5px; /* Отступ от кнопки просмотра */
+    transition: background-color 0.2s;
+}
+
+.edit-order-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-order-button {
+    background-color: #dc3545; /* Красный цвет */
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 5px; /* Отступ от кнопки редактирования */
+    transition: background-color 0.2s;
+}
+
+.delete-order-button:hover {
+    background-color: #c82333;
+}
+
+/* Стили для ячейки с действиями в таблице */
+.order-actions {
+    white-space: nowrap; /* Чтобы кнопки не переносились на новую строку */
+}
+
+/* Стили для select[multiple] - списка услуг */
+.form-group-input[multiple] {
+    height: auto; /* Автоматическая высота для отображения всех выбранных опций */
+    min-height: 120px; /* Минимальная высота, чтобы было видно несколько опций */
+    padding: 10px;
+    box-sizing: border-box; /* Чтобы padding не увеличивал общую ширину/высоту */
+}
+
+/* Стили для сообщений об успехе (success messages) */
+/* Вам нужно будет добавить этот блок, если вы хотите показывать сообщения об успехе */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}

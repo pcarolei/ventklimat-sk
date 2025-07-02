@@ -1,73 +1,56 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="header-container-title">
             {{ __('Панель заказов') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+    <div class="page-content">
+        <div class="flex justify-end mb-4"> {{-- Добавляем flex-контейнер для кнопки --}}
+            <a href="{{ route('orders.create') }}" class="create-button"> {{-- Новый класс для кнопки --}}
+                {{ __('Создать новый заказ') }}
+            </a>
+        </div>
 
-                {{-- Ваш HTML-код для панели заказов НАЧИНАЕТСЯ ЗДЕСЬ --}}
-                <div class="container">
-                    <h1>Панель заказов</h1>
-
-                    <div class="filters">
-                        <div class="filter-group">
-                            <label for="date-filter">Дата</label>
-                            <input type="date" id="date-filter">
-                        </div>
-
-                        <div class="filter-group">
-                            <label for="status-filter">Статус</label>
-                            <select id="status-filter">
-                                <option value="all">Все</option>
-                                <option value="new">Новые</option>
-                                <option value="processing">В обработке</option>
-                                <option value="completed">Завершённые</option>
-                                <option value="cancelled">Отменённые</option>
-                            </select>
-                        </div>
-
-                        <div class="filter-group">
-                            <label for="search">Поиск</label>
-                            <input type="text" id="search" placeholder="ID или клиент">
-                        </div>
-                    </div>
-
-                    <table class="orders-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Клиент</th>
-                                <th>Дата</th>
-                                <th>Сумма</th>
-                                <th>Статус</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{-- Здесь будут выводиться реальные данные из БД --}}
-                            @foreach(\App\Models\Order::all() as $order) {{-- Простой пример вывода данных --}}
-                            <tr>
-                                <td>#{{ $order->id }}</td>
-                                <td>{{ $order->user->name ?? 'N/A' }}</td>
-                                <td>{{ $order->created_at->format('d.m.Y') }}</td>
-                                <td>{{ number_format($order->total_amount, 2, ',', ' ') }} ₽</td>
-                                <td class="status-{{ strtolower($order->orderStatus->name) }}">
-                                    {{ $order->orderStatus->name }}
-                                </td>
-                                <td><a href="{{ route('orders.show', $order->id) }}" class="view-order-button">Просмотр</a></td>
-                            </tr>
-                            @endforeach
-                            {{-- Конец примера вывода данных --}}
-                        </tbody>
-                    </table>
-                </div>
-                {{-- Ваш HTML-код для панели заказов ЗАКАНЧИВАЕТСЯ ЗДЕСЬ --}}
-
-            </div>
+        <div class="orders-table-wrapper">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Клиент</th>
+                        <th>Дата</th>
+                        <th>Сумма</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($orders as $order)
+                    <tr>
+                        <td>#{{ $order->id }}</td>
+                        <td>{{ $order->user->name ?? 'N/A' }}</td>
+                        <td>{{ $order->created_at->format('d.m.Y H:i') }}</td>
+                        <td>{{ number_format($order->total_amount, 2, ',', ' ') }} ₽</td>
+                        <td class="status-{{ strtolower(str_replace(' ', '-', $order->orderStatus->name)) }}">
+                            {{ $order->orderStatus->name }}
+                        </td>
+                        <td class="order-actions"> {{-- Новый класс для ячейки с действиями --}}
+                            <a href="{{ route('orders.show', $order->id) }}" class="view-order-button">Просмотр</a>
+                            <a href="{{ route('orders.edit', $order->id) }}" class="edit-order-button">Редактировать</a> {{-- Кнопка редактирования --}}
+                            <form action="{{ route('orders.destroy', $order->id) }}" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить этот заказ?');" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="delete-order-button">Удалить</button> {{-- Кнопка удаления --}}
+                            </form>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Нет заказов.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 </x-app-layout>
